@@ -6,7 +6,6 @@ categories: [ Engineering, Visualization ]
 ---
 
 {% asset_img  heatmap.png %}
-{% asset_img  heatmap2.png %}
 
 Heatmap热图，通过渐变的色带很优雅地表现了空间数据之间的差异。通过色块颜色深浅程度，可以直观的看到具有相似性的空间数据，对空间数据进行简单的分组。
 
@@ -22,20 +21,20 @@ Heatmap热图，通过渐变的色带很优雅地表现了空间数据之间的�
     <meta charset="utf-8">
 </head>
 <body>
-<div id="heatmap" style="width:1500;height:410;overflow: auto"></div>
-<script type='text/javascript' src='http://d3js.org/d3.v4.min.js'></script>
+<div id="heatmap" style="width:600;height:400;overflow: auto"></div>
+<script type='text/javascript' src='https://d3js.org/d3.v4.min.js'></script>
 <script type="text/javascript">
-let width = 1500
-let height = 410
+let width = 600
+let height = 400
 let svg = d3.select('#heatmap')
   .append('svg')
   .attr('width', width)
   .attr('height', height)
-let fontSize = 8.5
-let rectSize = 8.5
+let fontSize = 12
+let rectSize = 12
 let padding = 1
-let namewidth = 55
-let margin = {top: 70, bottom: 20, left: 60, right: 20}
+let namewidth = 70
+let margin = {top: 70, bottom: 20, left: 80, right: 20}
 let color = d3.scaleLinear()
   .domain([0, 500])
   .range(['white', 'blue'])
@@ -64,7 +63,7 @@ d3.csv('heatmap.csv', (error, data) => {
     .attr('font-size', fontSize)
     .attr('text-anchor', 'end')
     .attr('dy', '1em')
-    .text((d, i) => 'rowname' + (i+1))
+    .text(d => d.name)
   // 添加小矩形
   let heatRect = gRow.selectAll('rect.heat')
     .data(d => {
@@ -99,11 +98,10 @@ d3.csv('heatmap.csv', (error, data) => {
     .attr('transform', 'translate(' + (-namewidth) + ', 0)')
     .attr('fill', 'white')
     .attr('fill-opacity', 0.2)
-    .datum(d => d.name)
   // 鼠标放到行上显示高亮
   gRow.on('mouseover', (d, i) => {
     highlightRow.style('fill', (row) => {
-      if (row === d.name) {
+      if (row === d) {
         return 'red'
       }
     })
@@ -132,7 +130,7 @@ d3.csv('heatmap.csv', (error, data) => {
     .attr('transform', (d, i) => {
       return 'translate(' + rectSize +', ' + namewidth + ')rotate(-90)'
     })
-    .text((d, i) => 'colname' + (i+1))
+    .text(d => d)
   // 创建显示高亮的竖条
   let highlightCol = gCol
     .append('rect')
@@ -168,7 +166,7 @@ d3.csv('heatmap.csv', (error, data) => {
 ## Codes
 
 {% codeblock lang:html %}
-<div id="heatmap" style="width:1500;height:410;overflow: auto"></div>
+<div id="heatmap" style="width:600;height:400;overflow: auto"></div>
 {% endcodeblock %}
 
 数据使用csv文件存储，数据格式如下：
@@ -188,16 +186,16 @@ rowname5,162,125,165,130,156,136,143,...
 创建svg后，首先绘制每一行。每一行都是一个g元素，在各行的g元素中绘制该行的rowname文本和所有的小矩形rect，然后在该行绘制一个横向的高亮矩形条。接着绘制每一列。每一列仍然是一个g元素，在各列的g元素中绘制一个colname文本和一个高亮的纵向矩形条。高亮矩形条默认颜色设置为白色，设置透明度样式。在高亮矩形条rect上添加`mouseover`和`mouseout`监听来改变颜色和恢复颜色。
 
 {% codeblock lang:javascript %}
-let width = 1500
-let height = 440
+let width = 600
+let height = 400
 let svg = d3.select('div')
   .append('svg')
   .attr('width', width)
   .attr('height', height)
-let fontSize = 8.5	// 文字大小
-let rectSize = 8.5	// 矩形大小
-let padding = 1		// 矩形间隔
-let namewidth = 55	// 行列属性文字长度
+let fontSize = 12  // 文字大小
+let rectSize = 12  // 矩形大小
+let padding = 1   // 矩形间隔
+let namewidth = 70  // 行列属性文字长度
 let margin = {top: 70, bottom: 20, left: 60, right: 20}
 
 let color = d3.scaleLinear()
@@ -212,7 +210,7 @@ d3.csv('heatmap.csv', (error, data) => {
   if (error) {
     throw error
   }
-  let rowProperty = []	// 每一列的属性名
+  let rowProperty = []  // 每一列的属性名
   Object.keys(data[0]).forEach(property => {
     rowProperty.push(property)
   })
