@@ -81,4 +81,4 @@ deploy:
   repo: git@github.com:cnyangkui/cnyangkui.github.io.git
   # repository: https://github.com/cnyangkui/cnyangkui.github.io.git
   branch: master
-  message: 降低3ds Max作品图片像素
+  message: update blog template
