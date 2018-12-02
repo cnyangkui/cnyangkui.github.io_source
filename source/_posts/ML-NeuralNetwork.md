@@ -14,6 +14,8 @@ categories: [ Engineering, Machine Learning ]
 ## Algorithm
 
 {% asset_img  algorithm.png %}
+---
+[神经网络快速入门](/2018/10/30/ML-NeuralNetworkPPT/)
 
 ## Codes
 

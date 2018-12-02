@@ -81,4 +81,4 @@ deploy:
   repo: git@github.com:cnyangkui/cnyangkui.github.io.git
   # repository: https://github.com/cnyangkui/cnyangkui.github.io.git
   branch: master
-  message: 添加“使用神经网络识别手写数字”
+  message: 添加“神经网络PPT”
